@@ -1,0 +1,13 @@
+.dashboard {
+  &__inner {
+    display: flex;
+  }
+  &__column-one,
+  &__coulmn-two {
+    width: 50%;
+  }
+  &__column-two {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}

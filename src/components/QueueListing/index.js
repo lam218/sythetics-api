@@ -1,3 +1,3 @@
-import QueueListing from './QueueListing';
+import QueueListing from './QueueListingContainer';
 
 export default QueueListing;

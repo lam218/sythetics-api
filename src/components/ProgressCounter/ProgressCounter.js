@@ -1,5 +1,5 @@
 import React from 'react';
 
-const ProgressCounter = () => <div><p>Number</p></div>;
+const ProgressCounter = ({chatCapacity}) => <div><p>{chatCapacity}</p></div>;
 
 export default ProgressCounter;

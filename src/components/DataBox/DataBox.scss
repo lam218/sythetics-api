@@ -1,0 +1,23 @@
+.data-box {
+  width: calc(50% - 30px);
+  background: rgba(178, 216, 216, 0.5);
+  margin: 5px;
+  padding: 10px;
+  min-height: 90px;
+
+  &__data-container {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+  }
+  &__heading {
+  }
+  &__data {
+    margin: 0;
+    font-size: 24px;
+  }
+  &__supData {
+    margin: 0 0 0 10px;
+    font-size: 14px;
+  }
+}
