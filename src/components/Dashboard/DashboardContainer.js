@@ -7,6 +7,8 @@ import "./Dashboard.scss";
 export default class DashboardContainer extends PureComponent {
   constructor() {
     super();
+    this.callApi = this.callApi.bind(this);
+    this.callApiOnLoop = this.callApiOnLoop.bind(this);
     this.state = {
       response: { livechat: {} },
       availableSlots: 0,
@@ -16,6 +18,13 @@ export default class DashboardContainer extends PureComponent {
     };
   }
   componentDidMount() {
+    this.callApiOnLoop();
+  }
+  callApiOnLoop() {
+    this.callApi();
+    setInterval(this.callApi, 30000);
+  }
+  callApi() {
     axios
       .get(
         "https://apistaging.syn-finity.com/1.1/metrics/livechat/public/realtime?data_requested[]=totalchats&data_requested[]=missedchats&data_requested[]=ongoingchats&data_requested[]=availableslots&data_requested[]=abandonedchats&data_requested[]=userstatus&data_requested[]=requestedchats&data_requested[]=completedchats&data_requested[]=usermax&data_requested[]=userchats&data_requested[]=usercallbacks&data_requested[]=bookedcallbacks&data_requested[]=missedcallbacks&data_requested[]=failedcallbacks&data_requested[]=cancelledcallbacks&data_requested[]=completedcallbacks&data_requested[]=ongoingcallbacks",
@@ -56,10 +65,12 @@ export default class DashboardContainer extends PureComponent {
   calculateAllUsers(users, potentialSlots) {
     let maxCapacity = 0;
     for (let i = 0; i < users.length; i++) {
-      maxCapacity = maxCapacity + users[i].max;
+      if (users[i].status === "available") {
+        maxCapacity = maxCapacity + users[i].max;
+      }
     }
     this.setState({
-      chatCapacity: Math.round((potentialSlots / maxCapacity) * 100)
+      chatCapacity: Math.round((maxCapacity / potentialSlots) * 100)
     });
   }
   render() {
