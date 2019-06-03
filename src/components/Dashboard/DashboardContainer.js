@@ -3,10 +3,10 @@ import axios from "axios";
 import Dashboard from "./Dashboard";
 
 import "./Dashboard.scss";
-console.log(process.env);
+
 const config = {
-  APPLICATIONKEY: process.env.APPLICATIONKEY,
-  CONSUMERKEY: process.env.CONSUMERKEY
+  APPLICATIONKEY: process.env.REACT_APP_APPLICATIONKEY,
+  CONSUMERKEY: process.env.REACT_APP_CONSUMERKEY
 };
 export default class DashboardContainer extends PureComponent {
   constructor() {
@@ -23,8 +23,6 @@ export default class DashboardContainer extends PureComponent {
   }
   componentDidMount() {
     this.callApiOnLoop();
-    console.log(process.env);
-
   }
   componentWillUnmount() {
     clearInterval(this.callApi);

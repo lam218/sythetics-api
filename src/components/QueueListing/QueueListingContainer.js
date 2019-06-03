@@ -3,8 +3,8 @@ import axios from "axios";
 import QueueListing from "./QueueListing";
 
 const config = {
-  APPLICATIONKEY: process.env.APPLICATIONKEY,
-  CONSUMERKEY: process.env.CONSUMERKEY
+  APPLICATIONKEY: process.env.REACT_APP_APPLICATIONKEY,
+  CONSUMERKEY: process.env.REACT_APP_CONSUMERKEY
 };
 export default class QueueListingContainer extends PureComponent {
   constructor() {
