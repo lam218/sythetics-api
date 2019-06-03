@@ -1,13 +1,28 @@
 import React from "react";
-import { CircularProgressbar } from "react-circular-progressbar";
-import "react-circular-progressbar/dist/styles.css";
 import "./ProgressCounter.scss";
 
-const ProgressCounter = ({ chatCapacity }) => (
-  <div className="progress-counter">
-    <CircularProgressbar value={chatCapacity} text={`${chatCapacity}%`} />
-    <p className="progress-counter__summary">Current chat capacity</p>
-  </div>
-);
+const ProgressBar = ({progress, title}) => {
+  const RAGCell = () => {
+    
+    if(progress > 80){
+        return 'progress-counter__fill--success';
+    }else if(progress > 60){
+        return 'progress-counter__fill--warning';
+    }
+    return 'table__cell--error';
+}
+  return(
+    <div className="progress-counter">
+    <div className="progress-counter__bar">
+      <div
+        className={`progress-counter__fill ${RAGCell()}`}
+        style={{ width: `${progress}%` }}
+      />
+    </div>
+    <p className="progress-counter__summary">{`${progress}% ${title}`}</p>
+  </div> 
+  )
+}
 
-export default ProgressCounter;
+
+export default ProgressBar;

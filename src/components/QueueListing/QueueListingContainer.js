@@ -2,46 +2,85 @@ import React, { PureComponent } from "react";
 import axios from "axios";
 import QueueListing from "./QueueListing";
 
+const config = {
+  APPLICATIONKEY: process.env.APPLICATIONKEY,
+  CONSUMERKEY: process.env.CONSUMERKEY
+};
 export default class QueueListingContainer extends PureComponent {
   constructor() {
     super();
     this.state = {
+      bearerToken: null,
       queue: {
-        new: [
-          {
-            uniQref: "fTUlC9ZsY003x",
-            skill: "Web self-service",
-            name: "test",
-            initation_time: "2018-11-27 14:15:50",
-            lapsed_time: 3,
-            brand: "",
-            bump: false,
-            channel: "Live chat",
-            phone: "",
-            timeframe: null,
-            due_time: 1543328153
-          }
-        ]
+        new: []
       }
     };
   }
   componentDidMount() {
-    // axios
-    //   .get("https://apistaging.syn-finity.com/1.1/queue/display", {
-    //     headers: {
-    //       APPLICATIONKEY: "cb04baf9fecab4fa51c10773ba3bb0e7",
-    //       CONSUMERKEY: "a33f1865ad41ccd1a972cda86b6c6535"
-    //     }
-    //   })
-    //   .then(response => {
-    //     this.setState({ queue: response.data });
-    //   }).catch(err => console.error(err));
+    this.callApiOnLoop();
+  }
+  callApiOnLoop() {
+    this.getToken();
+
+    setInterval(this.checkApi, 30000, this);
+  }
+  componentWillUnmount() {
+    clearInterval(this.checkApi);
+  }
+
+  checkApi(comp) {
+    const { bearerToken } = comp.state;
+    axios
+      .get("https://apistaging.syn-finity.com/1.1/external/session", {
+        headers: {
+          APPLICATIONKEY: config.APPLICATIONKEY,
+          CONSUMERKEY: config.CONSUMERKEY,
+          Authorization: "Bearer " + bearerToken
+        }
+      })
+      .then(response => {
+        if (response.data.ValidToken && !response.data.Expired) {
+          comp.getQueue();
+        } else {
+          comp.getToken();
+        }
+      })
+      .catch(error => console.error(error));
+  }
+  getToken() {
+    axios({
+      method: "POST",
+      url: "https://apistaging.syn-finity.com/1.1/external/session",
+      headers: {
+        APPLICATIONKEY: config.APPLICATIONKEY,
+        CONSUMERKEY: config.CONSUMERKEY,
+        "Content-Type": "application/json"
+      }
+    })
+      .then(response => {
+        this.setState({ bearerToken: response.data.token });
+        this.getQueue();
+      })
+      .catch(error => console.error(error));
+  }
+  getQueue() {
+    const { bearerToken } = this.state;
+    axios
+      .get("https://apistaging.syn-finity.com/1.1/queue/display", {
+        headers: {
+          APPLICATIONKEY: config.APPLICATIONKEY,
+          CONSUMERKEY: config.CONSUMERKEY,
+          Authorization: "Bearer " + bearerToken
+        }
+      })
+      .then(response => this.setState({ queue: response.data }))
+      .catch(error => console.error(error));
   }
   render() {
     const { queue } = this.state;
     return (
-      <div>
-        <h3>Currently in queue</h3>
+      <div className="queue">
+        <h3 className="queue__heading">Currently in queue</h3>
         <QueueListing queue={queue} />
       </div>
     );

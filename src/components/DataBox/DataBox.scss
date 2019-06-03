@@ -1,5 +1,5 @@
 .data-box {
-  width: calc(50% - 30px);
+  width: calc(25% - 30px);
   background: rgba(178, 216, 216, 0.5);
   margin: 5px;
   padding: 10px;
@@ -11,10 +11,12 @@
     align-items: baseline;
   }
   &__heading {
+    font-weight: 600;
   }
   &__data {
     margin: 0;
-    font-size: 24px;
+    font-size: 50px;
+    font-weight: 600;
   }
   &__supData {
     margin: 0 0 0 10px;

@@ -3,7 +3,11 @@ import axios from "axios";
 import Dashboard from "./Dashboard";
 
 import "./Dashboard.scss";
-
+console.log(process.env);
+const config = {
+  APPLICATIONKEY: process.env.APPLICATIONKEY,
+  CONSUMERKEY: process.env.CONSUMERKEY
+};
 export default class DashboardContainer extends PureComponent {
   constructor() {
     super();
@@ -19,6 +23,11 @@ export default class DashboardContainer extends PureComponent {
   }
   componentDidMount() {
     this.callApiOnLoop();
+    console.log(process.env);
+
+  }
+  componentWillUnmount() {
+    clearInterval(this.callApi);
   }
   callApiOnLoop() {
     this.callApi();
@@ -30,8 +39,8 @@ export default class DashboardContainer extends PureComponent {
         "https://apistaging.syn-finity.com/1.1/metrics/livechat/public/realtime?data_requested[]=totalchats&data_requested[]=missedchats&data_requested[]=ongoingchats&data_requested[]=availableslots&data_requested[]=abandonedchats&data_requested[]=userstatus&data_requested[]=requestedchats&data_requested[]=completedchats&data_requested[]=usermax&data_requested[]=userchats&data_requested[]=usercallbacks&data_requested[]=bookedcallbacks&data_requested[]=missedcallbacks&data_requested[]=failedcallbacks&data_requested[]=cancelledcallbacks&data_requested[]=completedcallbacks&data_requested[]=ongoingcallbacks",
         {
           headers: {
-            APPLICATIONKEY: "cb04baf9fecab4fa51c10773ba3bb0e7",
-            CONSUMERKEY: "a33f1865ad41ccd1a972cda86b6c6535"
+            APPLICATIONKEY: config.APPLICATIONKEY,
+            CONSUMERKEY: config.CONSUMERKEY
           }
         }
       )
@@ -85,7 +94,7 @@ export default class DashboardContainer extends PureComponent {
     } = this.state;
     return (
       <div className="dashboard">
-        <h1 className="dashboard__heading">Chat capacity</h1>
+        <h3 className="dashboard__heading">Chat capacity</h3>
         <Dashboard
           chatCapacity={chatCapacity}
           potentialSlots={potentialSlots}

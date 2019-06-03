@@ -13,7 +13,9 @@ const Dashboard = ({
   return (
     <div className="dashboard__inner">
       <div className="dashboard__column-one">
-        <ProgressCounter chatCapacity={chatCapacity}/>
+        <ProgressCounter 
+        title={"chat capacity"}
+        progress={ chatCapacity }/>
       </div>
       <div className="dashboard__column-two">
         <DataBox

@@ -1,0 +1,11 @@
+.table__cell {
+  &--success {
+    background: #72bf44;
+  }
+  &--warning {
+    background: #ffcb05;
+  }
+  &--error {
+    background: #f15f56;
+  }
+}

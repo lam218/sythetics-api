@@ -1,6 +1,25 @@
-.progress-counter{
-    height: 100px;
-    > svg{
-        height: 100px;
+.progress-counter {
+  width: 100%;
+  padding: 20px 0;
+  &__summary {
+    font-weight: 700;
+    text-align: right;
+  }
+  &__bar {
+    background: #f5f7f8;
+    height: 30px;
+  }
+  &__fill {
+    height: 100%;
+    color: yellow;
+    &--success {
+      background: #72bf44;
     }
+    &--warning {
+      background: #ffcb05;
+    }
+    &--error {
+      background: #f15f56;
+    }
+  }
 }
